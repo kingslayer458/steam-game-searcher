@@ -1,5 +1,5 @@
 # steam-game-searcher
-using  rawg apoi
+using  rawg API
 
 installation
 
