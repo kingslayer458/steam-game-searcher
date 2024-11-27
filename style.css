@@ -1,0 +1,139 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #1b1414;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+    padding: 0 20px;
+}
+
+/* Search Section */
+.search-section {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#search-bar {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+#search-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #2a475e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#search-button:hover {
+    background-color: #3c6e91;
+}
+
+/* Game List Section */
+#game-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.game {
+    background-color: #dadbcc;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.2s;
+    border: 1px solid #ccc;
+}
+
+.game img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.game:hover {
+    transform: scale(1.05);
+    background-color: #3c6e91;
+}
+
+/* Game Details Section */
+#game-details {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #c2ba86;
+    border-radius: 5px;
+    display: none;
+    text-align: left;
+}
+
+#game-details.visible {
+    display: block;
+}
+
+#back-button {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #1b2838;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#back-button:hover {
+    background-color: #788da3;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}
+/* Image Size for Game Search */
+.game img {
+    width: 100%;
+    height: 150px; /* Reduced height during search */
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: height 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Image Size for Game Details */
+#game-details img {
+    width: 100%;
+    height: 300px; /* Larger image when viewing details */
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+/* Transition on images */
+.game img, #game-details img {
+    transition: height 0.3s ease, width 0.3s ease;
+} 
+
+
+
+.hidden {
+    display: none;
+}

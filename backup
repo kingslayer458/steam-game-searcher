@@ -1,0 +1,218 @@
+const searchBar = document.getElementById("search-bar");
+const searchButton = document.getElementById("search-button");
+const gameList = document.getElementById("game-list");
+const gameDetails = document.getElementById("game-details");
+const detailsContent = document.getElementById("details-content");
+const backButton = document.getElementById("back-button");
+
+// Fetch and display game list
+async function fetchGames(query) {
+    try {
+        const response = await fetch(`/search?q=${query}`);
+        const games = await response.json();
+
+        if (games.length === 0) {
+            gameList.innerHTML = `<p>No games found for "${query}". Try a different search term.</p>`;
+            return;
+        }
+
+        // Remove the 'expanded' class for images during search
+        gameList.innerHTML = games.map(game => `
+            <div class="game" data-id="${game.id}">
+                <img src="${game.background_image}" alt="${game.name}" />
+                <h3>${game.name}</h3>
+                <p><strong>Rating:</strong> ${game.rating} / 5</p>
+            </div>
+        `).join("");
+
+        // Apply hover effect and click handlers after rendering games
+        attachGameClickHandlers();
+    } catch (error) {
+        console.error("Error fetching games:", error);
+    }
+}
+
+// Attach click handlers to game cards
+function attachGameClickHandlers() {
+    const gameCards = document.querySelectorAll(".game");
+    gameCards.forEach(card => {
+        card.addEventListener("click", () => {
+            const gameId = card.dataset.id;
+            fetchGameDetails(gameId);
+        });
+    });
+}
+
+// Fetch and display game details
+async function fetchGameDetails(gameId) {
+    try {
+        const response = await fetch(`/details?id=${gameId}`);
+        const game = await response.json();
+
+        if (game) {
+            gameDetails.classList.add("visible");
+            gameList.innerHTML = ""; // Hide game list
+
+            detailsContent.innerHTML = `
+                <h2>${game.name}</h2>
+                <img src="${game.background_image}" alt="${game.name}" class="expanded-image"/>
+                <p>${game.description_raw}</p>
+                <p><strong>Release Date:</strong> ${game.released || "Unknown"}</p>
+                <p><strong>Genres:</strong> ${game.genres.map(genre => genre.name).join(", ")}</p>
+                <p><strong>Rating:</strong> ${game.rating} / 5</p>
+                <p><strong>Website:</strong> <a href="${game.website}" target="_blank">${game.website}</a></p>
+            `;
+        }
+    } catch (error) {
+        console.error("Error fetching game details:", error);
+    }
+}
+
+// Event listeners
+searchButton.addEventListener("click", () => {
+    const query = searchBar.value.trim();
+    if (query) fetchGames(query);
+});
+
+backButton.addEventListener("click", () => {
+    gameDetails.classList.remove("visible");
+    detailsContent.innerHTML = ""; // Clear details
+});
+
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1b2838;
+    color: #fff;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+    padding: 0 20px;
+}
+
+/* Search Section */
+.search-section {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#search-bar {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
+
+#search-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #2a475e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#search-button:hover {
+    background-color: #3c6e91;
+}
+
+/* Game List Section */
+#game-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.game {
+    background-color: #2a475e;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.2s;
+    border: 1px solid #ccc;
+}
+
+.game img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.game:hover {
+    transform: scale(1.05);
+    background-color: #3c6e91;
+}
+
+/* Game Details Section */
+#game-details {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #2a475e;
+    border-radius: 5px;
+    display: none;
+    text-align: left;
+}
+
+#game-details.visible {
+    display: block;
+}
+
+#back-button {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #1b2838;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#back-button:hover {
+    background-color: #3c6e91;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}
+/* Image Size for Game Search */
+.game img {
+    width: 100%;
+    height: 100px; /* Reduced height during search */
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: height 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Image Size for Game Details */
+#game-details img {
+    width: 100%;
+    height: 300px; /* Larger image when viewing details */
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+/* Transition on images */
+.game img, #game-details img {
+    transition: height 0.3s ease, width 0.3s ease;
+}
+
+
+
