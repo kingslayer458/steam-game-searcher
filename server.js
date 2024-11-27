@@ -4,7 +4,7 @@ const app = express();
 const PORT = 3000;
 
 // Your RAWG API key
-const RAWG_API_KEY = "fa828279e28f467ca7d0690f4326d64e";
+const RAWG_API_KEY = "";
 
 // Serve static files
 app.use(express.static(__dirname));
