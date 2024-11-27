@@ -1,6 +1,9 @@
 # steam-game-searcher
 using  rawg API
 
+
+WORK ON PROGRESS
+
 installation
 
 generate rawg api from their offical website
