@@ -3,7 +3,7 @@ using  rawg API
 
 installation
 
-generate rawg api from thiern offical website
+generate rawg api from their offical website
 
 
 
